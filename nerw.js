@@ -7,6 +7,10 @@
  * @preserve
  */
 
+if (typeof exports != "undefined") {
+    var fs = require("fs");
+}
+
 var loadAlerts = false;
 if (loadAlerts) console.log("[NERWJS] Loading nerwjs");
 var startLoadTime = new Date().getTime();
@@ -224,7 +228,46 @@ class Network {
      * @preserve
      */
     export(exportName) {
-        console.warn("Export function not currently implemented.");
+        if (typeof exports == "undefined") throw new Error("Export function only works in Node.js environment");
+        console.warn("Export function not fully implemented.");
+        var o = fs.readFileSync("./export-template.js").toString();
+
+        var activationExpression = "";
+        var weights = [];
+        var bias = [];
+
+        // TODO: Create function
+        // god i dont want to do this its gonna be sooo much work
+        // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+        var prevLayer = this.inputs;
+        var wIndex = 0; // weights index
+        var bIndex = 0; // bias index
+
+        //create expression in terms of input layer
+        // Leaky ReLU
+        var activationExpressionAdd = [];
+        for (var i = 0; i < this.layers[0].length; i++) {
+            for (var j = 0; j < this.inputs.length; j++) {
+                activationExpressionAdd.push(this.inputs[j] + "*w[" + wIndex + "]");
+                wIndex++;
+            }
+            activationExpressionAdd.push("b[" + bIndex + "]");
+            bIndex++;
+            activationExpression += activationExpressionAdd.join("+");
+            activationExpressionAdd = [];
+        }
+        for (i = 1; i < this.layers.length; i++) {
+            // create expression in terms of previous layer
+            // Leaky ReLU
+        }
+        // create output expression in terms of last hidden layer
+        // Sigmoid
+
+        o = o.replace(/\{weights\}/, JSON.stringify(weights));
+        o = o.replace(/\{bias\}/, JSON.stringify(bias));
+        o = o.replace(/\{activate\}/, activationExpression);
+        o = o.replace(/\{name\}/g, exportName);
+        return o;
     }
 }
 
