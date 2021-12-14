@@ -1,6 +1,8 @@
 
 # NERW.JS
 
+### Note: This project is currently in beta, and is missing a lot of features
+
 Welcome to `nerw.js`, a lightweight neural network library. Nerw handles all the tough work for you, so you can forget all the hard work. Nerw is designed to be lightweight, and simple, and is intended for quickly creating artificial intelligence for simple games. You can check out an [example](https://shrecked.my.to/nerw/example) of nerwjs in action!
 
 
@@ -141,6 +143,7 @@ Mutates the network<br />
 Returns a clone of the network<br />
 
 # Distribution
+### Note: This feature is not currently part of the public release
 Putting your network to use has never been easier! Just use the ``Network.export`` method, and write it's contents to a file. You're already almost there! Now just add your generated file as a script in your html page or require it in node.js, and you can call it from the ``ExportedNetwork.activate`` method.
 ```js
 var fs = require("fs");
