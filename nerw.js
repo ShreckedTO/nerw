@@ -229,12 +229,30 @@ class Network {
      */
     export(exportName) {
         if (typeof exports == "undefined") throw new Error("Export function only works in Node.js environment");
-        console.warn("Export function not fully implemented.");
+        console.warn("The export function is currently experimental");
         var o = fs.readFileSync("./export-template.js").toString();
 
         var activationExpression = "";
         var weights = [];
         var bias = [];
+
+        // add weights and biases to array from nodes
+        for (var i = 0; i < this.layers.length; i++) {
+            for (var j = 0; j < this.layers[i].length; j++) {
+                for (var k = 0; k < this.layers[i][j].weights.length; k++) {
+                    weights.push(this.layers[i][j].weights[k]);
+                }
+                bias.push(this.layers[i][j].bias);
+            }
+        }
+        for (i = 0; i < this.outputs.length; i++) {
+            for (j = 0; j < this.outputs[i].weights.length; j++) {
+                weights.push(this.outputs[i].weights[j]);
+            }
+            bias.push(this.outputs[i].bias);
+        }
+        // console.log(weights);
+        // console.log(bias);
 
         // TODO: Create function
         // god i dont want to do this its gonna be sooo much work
@@ -242,26 +260,67 @@ class Network {
         var prevLayer = this.inputs;
         var wIndex = 0; // weights index
         var bIndex = 0; // bias index
+        var aIndex = 0;
+        var aUseIndex = 0;
+        var aOffset = 0;
 
         //create expression in terms of input layer
         // Leaky ReLU
         var activationExpressionAdd = [];
-        for (var i = 0; i < this.layers[0].length; i++) {
+        for (i = 0; i < this.layers[0].length; i++) {
             for (var j = 0; j < this.inputs.length; j++) {
-                activationExpressionAdd.push(this.inputs[j] + "*w[" + wIndex + "]");
+                activationExpressionAdd.push("args[" + j + "]*this.w[" + wIndex + "]");
                 wIndex++;
             }
-            activationExpressionAdd.push("b[" + bIndex + "]");
+            activationExpressionAdd.push("this.b[" + bIndex + "]");
             bIndex++;
-            activationExpression += activationExpressionAdd.join("+");
+            activationExpression += "\t\ta[" + aIndex + "] = this.leakyrelu(" + activationExpressionAdd.join("+") + ");\n";
+            aIndex++;
             activationExpressionAdd = [];
         }
+        prevLayer = this.layers[0];
+
         for (i = 1; i < this.layers.length; i++) {
             // create expression in terms of previous layer
             // Leaky ReLU
+            var activationExpressionAdd = [];
+            for (j = 0; j < this.layers[i].length; j++) {
+                for (var k = 0; k < prevLayer.length; k++) {
+                    activationExpressionAdd.push("a[" + (aUseIndex+aOffset) + "]*this.w[" + wIndex + "]");
+                    wIndex++;
+                    aUseIndex++;
+                }
+                activationExpressionAdd.push("this.b[" + bIndex + "]");
+                bIndex++;
+                activationExpression += "\t\ta[" + aIndex + "] = this.leakyrelu(" + activationExpressionAdd.join("+") + ");\n";
+                aIndex++;
+                activationExpressionAdd = [];
+                aUseIndex = 0;
+            }
+            prevLayer = this.layers[i];
+            aOffset += prevLayer.length;
         }
         // create output expression in terms of last hidden layer
         // Sigmoid
+        var ret = [];
+        var activationExpressionAdd = [];
+        var retA = aUseIndex;
+        for (i = 0; i < this.outputs.length; i++) {
+            for (var j = 0; j < prevLayer.length; j++) {
+                activationExpressionAdd.push("a[" + (aUseIndex+aOffset) + "]*this.w[" + wIndex + "]");
+                wIndex++;
+                aUseIndex++;
+            }
+            activationExpressionAdd.push("this.b[" + bIndex + "]");
+            bIndex++;
+            activationExpression += "\t\ta[" + aIndex + "] = this.sigmoid(" + activationExpressionAdd.join("+") + ");\n";
+            ret.push("a[" + aIndex + "]");
+            aIndex++;
+            activationExpressionAdd = [];
+            aUseIndex = retA;
+        }
+
+        activationExpression += "\t\treturn [" + ret.join(",") + "];";
 
         o = o.replace(/\{weights\}/, JSON.stringify(weights));
         o = o.replace(/\{bias\}/, JSON.stringify(bias));

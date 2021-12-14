@@ -13,6 +13,6 @@ Write-Output "Created nerw.js file"
 Write-Output "Adding header to compressed dist"
 Get-Content header.txt, "dist/nerw-nohead-v$ver.js" | Set-Content "dist/nerw-v$ver.js"
 Write-Output "Added header to compressed dist"
-Write-Output "echo nerw.js dist files writted in dist folder"
+Write-Output "nerw.js dist files writted in dist folder"
 
 [String]$ver | Out-File -FilePath ver.txt
