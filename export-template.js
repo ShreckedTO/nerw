@@ -20,4 +20,8 @@ var {name} = {
 };
 if (typeof exports != "undefined") {
     exports.activate = {name}.activate;
+    exports.w = {name}.w;
+    exports.b = {name}.b;
+    exports.leakyrelu = {name}.leakyrelu;
+    exports.sigmoid = {name}.sigmoid;
 }
