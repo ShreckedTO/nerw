@@ -7,7 +7,7 @@ Welcome to `nerw.js`, a lightweight neural network library. Nerw handles all the
 # Install
 
 ```bash
-npm install nerwjs
+npm i @cjtierney/nerwjs
 ```
 # Usage
 
