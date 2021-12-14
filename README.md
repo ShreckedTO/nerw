@@ -98,7 +98,7 @@ Not sure what's going on? Check here!
 ## Methods
 ### NetworkGroup
 ``NetworkGroup.addInput``
-Adds an input to each of the networks
+Adds an input to each of the networks<br />
 ``NetworkGroup.addLayer``
 Adds a hidden layer to each of the networks
 ``NetworkGroup.addOutput``
