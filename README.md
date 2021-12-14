@@ -143,7 +143,7 @@ Mutates the network<br />
 Returns a clone of the network<br />
 
 # Distribution
-### Note: This feature is not currently part of the public release
+### Note: This feature is currently experimental
 Putting your network to use has never been easier! Just use the ``Network.export`` method, and write it's contents to a file. You're already almost there! Now just add your generated file as a script in your html page or require it in node.js, and you can call it from the ``ExportedNetwork.activate`` method.
 ```js
 var fs = require("fs");
