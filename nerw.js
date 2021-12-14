@@ -217,6 +217,15 @@ class Network {
         cloneNetworkObj.score = this.score;
         return cloneNetworkObj;
     }
+
+    /**
+     * Generate a javascript string that allows use of the network in other applications
+     * @param {string} exportName - Set the name of the exported network
+     * @preserve
+     */
+    export(exportName) {
+        console.warn("Export function not currently implemented.");
+    }
 }
 
 /**
