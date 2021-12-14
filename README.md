@@ -13,7 +13,7 @@ npm i @cjtierney/nerwjs
 
 It's easy to create a simple network with just a few lines of code!
 ```js
-var nerw = require("nerwjs");
+var nerw = require("@cjtierney/nerwjs");
 
 // Create a new network instance
 var network = new nerw.Network();
