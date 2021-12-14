@@ -100,17 +100,17 @@ Not sure what's going on? Check here!
 ``NetworkGroup.addInput``
 Adds an input to each of the networks<br />
 ``NetworkGroup.addLayer``
-Adds a hidden layer to each of the networks
+Adds a hidden layer to each of the networks<br />
 ``NetworkGroup.addOutput``
-Adds an output to each of the networks
+Adds an output to each of the networks<br />
 ``NetworkGroup.initiate``
-Initiates the networks
+Initiates the networks<br />
 ``NetworkGroup.sort``
-Sorts the networks by their score (lowest to highest)
+Sorts the networks by their score (lowest to highest)<br />
 ``NetworkGroup.generation``
-Removes the worst 50% of the networks and replaces them with new networks (higher score is considered worse)
+Removes the worst 50% of the networks and replaces them with new networks (higher score is considered worse)<br />
 ``NetworkGroup.each``
-Executes a callback for each of the networks
+Executes a callback for each of the networks<br />
 ```js
 networks.each(function(n,i){
 	// n represents a network
@@ -126,19 +126,19 @@ networks.each(function(n,i){
 ```
 ### Network
 ``Network.addInput``
-Adds an input to the network
+Adds an input to the network<br />
 ``Network.addLayer``
-Adds a hidden layer to the network
+Adds a hidden layer to the network<br />
 ``Network.addOutput``
-Adds an output to the network
+Adds an output to the network<br />
 ``Network.initiate``
-Initiates the network
+Initiates the network<br />
 ``Network.activate``
-Returns the output of the network given the arguments
+Returns the output of the network given the arguments<br />
 ``Network.mutate``
-Mutates the network
+Mutates the network<br />
 ``Network.cloneNetwork``
-Returns a clone of the network
+Returns a clone of the network<br />
 
 # Distribution
 Putting your network to use has never been easier! Just use the ``Network.export`` method, and write it's contents to a file. You're already almost there! Now just add your generated file as a script in your html page or require it in node.js, and you can call it from the ``ExportedNetwork.activate`` method.
