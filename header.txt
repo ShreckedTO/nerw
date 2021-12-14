@@ -1,0 +1,9 @@
+/**
+ * 
+ * NERW.js - A lightweight neural network library written in javascript
+ * Visit me at https://shrecked.my.to/
+ * 
+ * @module nerwjs
+ * 
+ */
+
